@@ -25,6 +25,7 @@ namespace RecipeBox.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("AuthorId");
@@ -42,18 +43,23 @@ namespace RecipeBox.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Ingredient")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Instruction")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Intro")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Measure")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("Rate")
@@ -94,6 +100,7 @@ namespace RecipeBox.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("TagId");

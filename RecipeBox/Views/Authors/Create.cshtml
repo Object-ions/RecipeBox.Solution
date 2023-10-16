@@ -1,0 +1,24 @@
+@{
+  Layout = "_Layout";
+}
+
+@model RecipeBox.Models.Author
+
+<div>
+
+  <div>
+    @using (@Html.BeginForm())
+    {
+      @Html.LabelFor(model => model.Name)
+      @Html.TextBoxFor(model => model.Name)
+      @Html.ValidationMessageFor(model => model.Name)
+
+      <input type="submit" value="Create author" />
+    }
+  </div>
+
+  <div>
+    @Html.ActionLink("Show author list", "Index")
+  </div>
+
+</div>

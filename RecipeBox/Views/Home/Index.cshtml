@@ -10,7 +10,7 @@
     <h2>Authors</h2>
     @if (Model["authors"].Length == 0)
     {
-      <p>No authors yet added</p>
+      <p>No authors have been added yet!</p>
       @Html.ActionLink("Add an author", "Create", "Authors")
     }
     <ul>
@@ -25,7 +25,7 @@
     <h2>Recipes</h2>
     @if (Model["recipes"].Length == 0)
     {
-      <p>No recipes yet added</p>
+      <p>No recipes have been added yet!</p>
       @Html.ActionLink("Add a recipe", "Create", "Recipes")
     }
     <ul>
@@ -40,7 +40,7 @@
     <h2>Tags</h2>
     @if (Model["tags"].Length == 0)
     {
-      <p>No tags yet added</p>
+      <p>No tags have been added yet!</p>
       @Html.ActionLink("Add a tag", "Create", "Tags")
     }
     <ul>
