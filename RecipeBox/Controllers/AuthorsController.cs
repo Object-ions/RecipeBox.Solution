@@ -34,5 +34,16 @@ namespace RecipeBox.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
+    public ActionResult Details(int id)
+    {
+      Author thisAuthor = _db.Authors
+                            .Include(author => author.Recipes)
+                            .ThenInclude(recipe => recipe.JoinEntities)
+                            .ThenInclude(join => join.Tag)
+                            .FirstOrDefault(author => author.AuthorId == id);
+      return View(thisAuthor);
+    }
+    
   }
 }
