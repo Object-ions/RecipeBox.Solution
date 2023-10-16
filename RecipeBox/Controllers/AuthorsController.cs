@@ -14,5 +14,11 @@ namespace RecipeBox.Controllers
     {
       _db = db;
     }
+
+    public ActionResult Index()
+    {
+      List<Authors> model = _db.Authors.ToList();
+      return View(model);
+    }
   }
 }
