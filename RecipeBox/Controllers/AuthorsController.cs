@@ -3,6 +3,7 @@ using RecipeBox.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace RecipeBox.Controllers
 {
@@ -17,8 +18,21 @@ namespace RecipeBox.Controllers
 
     public ActionResult Index()
     {
-      List<Authors> model = _db.Authors.ToList();
+      List<Author> model = _db.Authors.ToList();
       return View(model);
+    }
+
+    public ActionResult Create()
+    {
+      return View();
+    }
+
+    [HttpPost]
+    public ActionResult Create(Author author)
+    {
+      _db.Authors.Add(author);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
   }
 }

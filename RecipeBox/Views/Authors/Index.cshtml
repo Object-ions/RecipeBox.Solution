@@ -17,8 +17,6 @@
       @foreach(Author author in Model)
       {
         <li>@Html.ActionLink($"{author.Name}", "Details", new { id = author.AuthorId })</li>
-
-        <li>@Html.ActionLink(@author.Name, "Details", "Authors", new { id = @author.AuthorId })</li>
       }
     </ul>
   </div>
