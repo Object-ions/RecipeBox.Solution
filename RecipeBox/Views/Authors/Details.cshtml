@@ -7,36 +7,34 @@
 @using System.Collections.Generic;
 
 <div>
-<h2>Author Details:</h2>
-</div>
+  <h2>Author Details:</h2>
 
-<div>
-@if(@Model.JoinEntity.Count == 0)
-{
-  <p>No recipes have been written by this author!</p>
-}
-else
-{
-  <p>@DisplayFor(model => model.Name) has written the following recipes:</p>
-  <ul>
-  @foreach(Recipe recipe in Model.Recipes)
+  @if(@Model.JoinEntity.Count == 0)
   {
-    string tags = "";
-    @if(recipe.JoinEntities.Count == 0)
-    {
-      tags = "This recipe has no associated tags!"
-    }
-    else
-    {
-      List<string> tagList = new List<string>;
-      @foreach(RecipeTag join in recipe.JoinEntities)
-      {
-        tagList.Add(join.Tag.Name);
-      }
-      tags = string.Join(", ", tagList);
-    }
-    <li>@recipe.Name | Tags: @tags</li>
+    <p>No recipes have been written by this author!</p>
   }
-  </ul>
-}
+  else
+  {
+    <p>@DisplayFor(model => model.Name) has written the following recipes:</p>
+    <ul>
+      @foreach(Recipe recipe in Model.Recipes)
+      {
+        string tags = "";
+        @if(recipe.JoinEntities.Count == 0)
+        {
+          tags = "This recipe has no associated tags!"
+        }
+        else
+        {
+          List<string> tagList = new List<string>;
+          @foreach(RecipeTag join in recipe.JoinEntities)
+          {
+            tagList.Add(join.Tag.Name);
+          }
+          tags = string.Join(", ", tagList);
+        }
+        <li>@recipe.Name | Tags: @tags</li>
+      }
+    </ul>
+  }
 </div>
