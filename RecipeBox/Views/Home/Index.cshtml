@@ -1,3 +1,55 @@
 @{
-    Layout = "_Layout";
+  Layout = "_Layout";
 }
+
+@using RecipeBox.Models;
+
+<div>
+  
+  <div>
+    <h2>Authors</h2>
+    @if (Model["authors"].Length == 0)
+    {
+      <p>No authors yet added</p>
+      @Html.ActionLink("Add an author", "Create", "Authors")
+    }
+    <ul>
+    @foreach(Author author in Model["authors"])
+    {
+      <li>@Html.ActionLink(@author.Name, "Details", "Authors", new { id = @author.AuthorId })</li>
+    }
+    </ul>
+  </div>
+  
+  <div>
+    <h2>Recipes</h2>
+    @if (Model["recipes"].Length == 0)
+    {
+      <p>No recipes yet added</p>
+      @Html.ActionLink("Add a recipe", "Create", "Recipes")
+    }
+    <ul>
+    @foreach(Recipe recipe in Model["recipes"])
+    {
+      <li>@Html.ActionLink(@recipe.Name, "Details", "Recipes", new { id = @recipe.RecipeId })</li>
+    }
+    </ul>
+  </div>
+  
+  <div>
+    <h2>Tags</h2>
+    @if (Model["tags"].Length == 0)
+    {
+      <p>No tags yet added</p>
+      @Html.ActionLink("Add a tag", "Create", "Tags")
+    }
+    <ul>
+    @foreach(Tag tag in Model["tags"])
+    {
+      <li>@Html.ActionLink(@tag.Name, "Details", "Tags", new { id = @tag.TagId })</li>
+    }
+    </ul>
+  </div>
+  
+
+</div>
