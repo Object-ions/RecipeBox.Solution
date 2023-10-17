@@ -1,3 +1,23 @@
 @{
-    Layout = "_Layout";
+  Layout = "_Layout";
 }
+
+@model RecipeBox.Models.Recipe;
+@using System.Collections.Generic;
+@using RecipeBox.Models;
+
+<div>
+  <h2>Add a tag</h2>
+
+  <p>Add a tag to @Html.DisplayFor(model => model.Name)</p>
+
+  <div>
+
+    @using (Html.BeginForm())
+    {
+      @Html.Label("Select a tag")
+      @Html.DropDownList("TagId")
+      <input type="submit" value="Save"/>
+    }
+  </div>
+</div>

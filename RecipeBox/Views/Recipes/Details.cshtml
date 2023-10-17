@@ -47,4 +47,8 @@
       
   </div>
 
+  <div class="btm-bar">
+    @Html.ActionLink("Edit recipe", "Edit", new { id = Model.RecipeId })
+    @Html.ActionLink("Delete this recipe", "Delete", new { id = Model.RecipeId })
+  </div>
 <div>

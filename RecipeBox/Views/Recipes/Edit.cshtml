@@ -3,6 +3,8 @@
 }
 
 @model RecipeBox.Models.Recipe;
+@using RecipeBox.Models
+
 
 <div>
   <h2>Edit Recipe:</h2>
@@ -37,16 +39,25 @@
     @Html.DropDownListFor(model => model.AuthorId, (SelectList)ViewBag.AuthorId, "Select an Author")
 
     //Add Remove tad or add tag to recipe
-
-    //@using (Html.BeginForm("DeleteJoin", "Recipes"))
-        //{
-        //@Html.Hidden("joinId", @join.ItemTagId)
-        //<input type="submit" value="Delete"/>
-
+    /////////////////////////////////////////////
+    <ul>
+    @foreach(RecipeTag join in Model.JoinEntities)
+    {
+      <li>Tag: @join.Tag.Name</li>
+      @using (Html.BeginForm("DeleteJoin", "Recipes"))
+      {
+        @Html.Hidden("joinId", @join.RecipeTagId)
+        <input type="submit" value="Delete" />
+      }
+    }
+    </ul>
+    ///////////////////////////////////////////////
     <input type="submit" value="Save changes" />
   }
+    <!-- need to fix deleteJoin -->
 
   <div class="btm-bar">
+    @Html.ActionLink("Add tag to this recipe", "AddTag", new { id = Model.RecipeId })
     @Html.ActionLink("Delete this recipe", "Delete", new { id = Model.RecipeId })
   </div>
 </div>
