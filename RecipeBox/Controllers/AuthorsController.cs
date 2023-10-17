@@ -58,5 +58,20 @@ namespace RecipeBox.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
+    public ActionResult Delete(int id)
+    {
+      Author thisAuthor = _db.Authors.FirstOrDefault(a => a.AuthorId == id);
+      return View(thisAuthor);
+    }
+
+    [HttpPost, ActionName ("Delete")]
+    public ActionResult DeleteConfirmed(int id)
+    {
+      Author thisAuthor = _db.Authors.FirstOrDefault(a => a.AuthorId == id);
+      _db.Authors.Remove(thisAuthor);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
   }
 }
