@@ -13,8 +13,6 @@ namespace RecipeBox.Models
     public string Ingredient { get; set; }
     [Required(ErrorMessage = "Instructions are required")]
     public string Instruction { get; set; }
-    [Required(ErrorMessage = "Measurements are required")]
-    public string Measure { get; set; }
     [Required(ErrorMessage = "An intro is required")]
     public string Intro { get; set; }
     // Note: this is a condition to add a recipe

@@ -1,3 +1,41 @@
 @{
-    Layout = "_Layout";
+  Layout = "_Layout";
 }
+
+@model RecipeBox.Models.Recipe;
+
+<div>
+  <h2>Edit Recipe:</h2>
+  @Html.DisplayFor(model => model.Name)
+
+  @using(Html.BeginForm())
+  {
+    @Html.HiddenFor(model => model.RecipeId)
+
+    @Html.LabelFor(model => model.Name)
+    <br>
+    @Html.EditorFor(model => model.Name)
+    <br>
+    
+    @Html.LabelFor(model => model.Intro)
+    <br>
+    @Html.TextAreaFor(model => model.Intro)
+    <br>
+    
+    @Html.LabelFor(model => model.Ingredient)
+    <br>
+    @Html.TextAreaFor(model => model.Ingredient)
+    <br>
+    
+    @Html.LabelFor(model => model.Instruction)
+    <br>
+    @Html.TextAreaFor(model => model.Instruction)
+    <br>
+
+    @Html.LabelFor(model => model.AuthorId, "Author")
+    <br>
+    @Html.DropDownListFor(model => model.AuthorId, (SelectList)ViewBag.AuthorId, "Select an Author")
+
+    <input type="submit" value="Save changes" />
+  }
+</div>

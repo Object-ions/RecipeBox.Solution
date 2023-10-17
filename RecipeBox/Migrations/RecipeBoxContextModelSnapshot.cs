@@ -54,10 +54,6 @@ namespace RecipeBox.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Measure")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");

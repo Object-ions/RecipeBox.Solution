@@ -21,22 +21,17 @@
         <br>
 
         @Html.LabelFor(model => model.Intro)
-        @Html.TextBoxFor(model => model.Intro)
+        @Html.TextAreaFor(model => model.Intro)
         @Html.ValidationMessageFor(model => model.Intro, "", new { @class = "text-danger", @style = "font-weight: 600;" })
         <br>
 
         @Html.LabelFor(model => model.Ingredient)
-        @Html.TextBoxFor(model => model.Ingredient)
+        @Html.TextAreaFor(model => model.Ingredient)
         @Html.ValidationMessageFor(model => model.Ingredient, "", new { @class = "text-danger", @style = "font-weight: 600;" })
         <br>
-
-        @Html.LabelFor(model => model.Measure)
-        @Html.TextBoxFor(model => model.Measure)
-        @Html.ValidationMessageFor(model => model.Measure, "", new { @class = "text-danger", @style = "font-weight: 600;" })
-        <br>
-
+        
         @Html.LabelFor(model => model.Instruction)
-        @Html.TextBoxFor(model => model.Instruction)
+        @Html.TextAreaFor(model => model.Instruction)
         @Html.ValidationMessageFor(model => model.Instruction, "", new { @class = "text-danger", @style = "font-weight: 600;" })
         <br>
 

@@ -45,5 +45,20 @@ namespace RecipeBox.Controllers
         return RedirectToAction("Index");
       }
     }
+
+    public ActionResult Edit(int id)
+    {
+      Recipe thisRecipe = _db.Recipes.FirstOrDefault(re => re.RecipeId == id);
+      ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
+      return View(thisRecipe);
+    }
+
+    [HttpPost]
+    public ActionResult Edit(Recipe recipe)
+    {
+      _db.Recipes.Update(recipe);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
   }
 }
