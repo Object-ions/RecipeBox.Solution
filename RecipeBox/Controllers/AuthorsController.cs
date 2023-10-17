@@ -45,5 +45,18 @@ namespace RecipeBox.Controllers
       return View(thisAuthor);
     }
     
+    public ActionResult Edit (int id)
+    {
+      Author thisAuthor = _db.Authors.FirstOrDefault(au => au.AuthorId == id);
+      return View(thisAuthor);
+    }
+
+    [HttpPost]
+    public ActionResult Edit (Author author)
+    {
+      _db.Authors.Update(author);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
   }
 }
