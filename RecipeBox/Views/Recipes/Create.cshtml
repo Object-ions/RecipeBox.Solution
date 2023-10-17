@@ -1,3 +1,48 @@
 @{
     Layout = "_Layout";
 }
+
+@model RecipeBox.Models.Recipe
+
+<div>
+    <h2>Add a new recipe</h2>
+
+    @using (Html.BeginForm())
+    {  
+        if (ViewData.ModelState.TryGetValue("AuthorId", out var authorState) &&
+            authorState.Errors.Any())
+        {
+            <p class="text-danger" style="font-weight: 600;">Your recipe must have an author first.<br> @Html.ActionLink("Click here to create an author", "Create", "Authors")</p>
+        }
+        
+        @Html.LabelFor(model => model.Name)
+        @Html.TextBoxFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @style = "font-weight: 600;" })
+        <br>
+
+        @Html.LabelFor(model => model.Intro)
+        @Html.TextBoxFor(model => model.Intro)
+        @Html.ValidationMessageFor(model => model.Intro, "", new { @class = "text-danger", @style = "font-weight: 600;" })
+        <br>
+
+        @Html.LabelFor(model => model.Ingredient)
+        @Html.TextBoxFor(model => model.Ingredient)
+        @Html.ValidationMessageFor(model => model.Ingredient, "", new { @class = "text-danger", @style = "font-weight: 600;" })
+        <br>
+
+        @Html.LabelFor(model => model.Measure)
+        @Html.TextBoxFor(model => model.Measure)
+        @Html.ValidationMessageFor(model => model.Measure, "", new { @class = "text-danger", @style = "font-weight: 600;" })
+        <br>
+
+        @Html.LabelFor(model => model.Instruction)
+        @Html.TextBoxFor(model => model.Instruction)
+        @Html.ValidationMessageFor(model => model.Instruction, "", new { @class = "text-danger", @style = "font-weight: 600;" })
+        <br>
+
+        @Html.LabelFor(model => model.Author)
+        @Html.DropDownList("AuthorId")        
+
+        <input type="submit" value="Add new recipe" class="btn btn-primary"/>
+    }
+</div>

@@ -17,7 +17,8 @@ namespace RecipeBox.Models
     public string Measure { get; set; }
     [Required(ErrorMessage = "An intro is required")]
     public string Intro { get; set; }
-    [Range(1, int.MaxValue, ErrorMessage = "Your recipe must have an author first! Have you created an author?")]
+    // Note: this is a condition to add a recipe
+    [Range(1, int.MaxValue, ErrorMessage = "error")]
     public int AuthorId { get; set; }
     public Author Author { get; set; }
     public List<RecipeTag> JoinEntities { get; }
