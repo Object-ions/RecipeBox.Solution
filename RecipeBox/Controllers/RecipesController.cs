@@ -16,6 +16,14 @@ namespace RecipeBox.Controllers
       _db = db;
     }
 
+    public ActionResult Index()
+    {
+      List<Recipe> recipeModel = _db.Recipes
+                                    .Include(recipe => recipe.Author)
+                                    .ToList();
+      return View(recipeModel);
+    }
+
     public ActionResult Create()
     {
       ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
