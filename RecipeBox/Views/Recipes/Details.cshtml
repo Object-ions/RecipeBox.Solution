@@ -1,3 +1,50 @@
 @{
-    Layout = "_Layout";
+  Layout = "_Layout";
 }
+
+@model RecipeBox.Models.Recipe;
+@using RecipeBox.Models;
+@using System.Collections.Generic;
+
+<div>
+
+  <div>
+    <div>
+      <h2>@Html.DisplayFor(model => model.Name)</h2>
+    <div>
+    <p>by: @Html.DisplayFor(model => model.Author.Name)</p>
+  </div>
+
+  <div>
+    @Html.DisplayFor(model => model.Intro)
+  </div>
+
+  <div>
+    @Html.DisplayFor(model => model.Ingredient)
+  </div>
+
+  <div>
+    @Html.DisplayFor(model => model.Instruction)
+  </div>
+
+  <div>
+    @if(@Model.JoinEntities.Count == 0)
+    {
+      <p>This recipe has no tags.</p>
+    }
+    else
+    {
+      <p>Tags:</p>
+      <ul>
+        @foreach(RecipeTag recipeTag in Model.JoinEntities)
+        {
+          // NOTE: Edit to action link
+        <li>Tag: @recipeTag.Tag.Name</li>
+        
+        }
+      </ul>
+    }
+      
+  </div>
+
+<div>

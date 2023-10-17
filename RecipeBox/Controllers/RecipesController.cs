@@ -60,5 +60,16 @@ namespace RecipeBox.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
+    public ActionResult Details(int id)
+    {
+      Recipe thisRecipe = _db.Recipes
+                                .Include(re => re.Author)
+                                .Include(je => je.JoinEntities)
+                                .ThenInclude(tag => tag.Tag)
+                                .FirstOrDefault(re => re.RecipeId == id);
+      return View(thisRecipe);
+    }
+
   }
 }
