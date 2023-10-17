@@ -1,0 +1,9 @@
+.index-div {
+  background-color: aquamarine;
+  display: flex;
+  flex-direction: row;
+}
+
+.pr-33{
+  width: 33%;
+}
