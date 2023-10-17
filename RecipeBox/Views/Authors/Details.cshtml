@@ -33,8 +33,15 @@
           }
           tags = string.Join(", ", tagList);
         }
-        <li>@recipe.Name | Tags: @tags</li>
+        <li>
+            @Html.ActionLink($"{recipe.Name}", "Details", new { id = recipe.RecipeId })
+        Tags: @tags</li>
       }
     </ul>
+
   }
+  <div>
+    @Html.ActionLink("Edit author profile", "Edit", new { id = @Model.AuthorId })
+    @Html.ActionLink("Delete author profile", "Delete", new { id = @Model.AuthorId })
+  </div>
 </div>
