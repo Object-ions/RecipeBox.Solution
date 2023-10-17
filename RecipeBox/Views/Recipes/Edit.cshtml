@@ -36,6 +36,17 @@
     <br>
     @Html.DropDownListFor(model => model.AuthorId, (SelectList)ViewBag.AuthorId, "Select an Author")
 
+    //Add Remove tad or add tag to recipe
+
+    //@using (Html.BeginForm("DeleteJoin", "Recipes"))
+        //{
+        //@Html.Hidden("joinId", @join.ItemTagId)
+        //<input type="submit" value="Delete"/>
+
     <input type="submit" value="Save changes" />
   }
+
+  <div class="btm-bar">
+    @Html.ActionLink("Delete this recipe", "Delete", new { id = Model.RecipeId })
+  </div>
 </div>
