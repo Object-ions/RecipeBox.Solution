@@ -7,7 +7,7 @@
 
 <h2>Tag Details</h2>
 <hr />
-<h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</h3>
+<h3>Tag: @Html.DisplayFor(model => model.Name)</h3>
 
 @if(@Model.JoinEntities.Count == 0)
 {
@@ -23,8 +23,6 @@ else
   }
   </ul>
 }
-<p>@Html.ActionLink("Add a recipe", "AddRecipe", new { id = Model.TagId }) </p>
+<p>@Html.ActionLink("Add a recipe for this tag", "AddRecipe", new { id = Model.TagId }) </p>
 <p>@Html.ActionLink("Edit tag's profile", "Edit", new { id = Model.TagId })</p>
-<p>@Html.ActionLink("Delete this profile", "Delete", new { id = Model.TagId})
-<br />
-<p>@Html.ActionLink("Back to list", "Index")</p>
+<p>@Html.ActionLink("Delete tag", "Delete", new { id = Model.TagId})

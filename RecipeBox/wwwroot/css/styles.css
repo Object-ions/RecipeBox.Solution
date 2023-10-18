@@ -1,6 +1,26 @@
+body {
+  margin: 0 auto;
+}
+
+a {
+  border-bottom: 1px solid black;
+  margin-right: 5px;
+  text-align: center;
+  text-decoration: none;
+}
+
+a:hover {
+  border: 1px solid black;
+}
 
 div {
+  text-align: center;
+  margin: 0 auto;
   margin-bottom: 20px;
+}
+
+ul {
+  text-align: left;
 }
 
 .header-section {
@@ -9,9 +29,14 @@ div {
 
 .footer-section {
   position: absolute;
-    bottom: 50px;
-    width: 100%;
-    color: #f9fafb;
+  bottom: 50px;
+  width: 100%;
+  color: #f9fafb;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
 }
 
 .index-div {
