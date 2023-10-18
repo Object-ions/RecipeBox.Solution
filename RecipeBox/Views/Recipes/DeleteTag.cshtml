@@ -1,0 +1,30 @@
+@{
+  Layout = "_Layout";
+}
+
+@model RecipeBox.Models.Recipe;
+@using RecipeBox.Models
+@using System.Collections.Generic;
+
+<div>
+
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This recipe does not have any tags yet!</p>
+}
+else
+{
+  <h4>Tags associated with this recipe:</h4>
+  <ul>
+    @foreach(RecipeTag join in Model.JoinEntities)
+    {
+      <li>@join.Tag.Name</li>
+      @using (Html.BeginForm("DeleteTag", "Recipes"))
+      {
+        @Html.Hidden("joinId", @join.RecipeTagId)
+        <input type="submit" value="Delete"/>
+      }
+    }
+  </ul>
+}
+</div>

@@ -97,21 +97,31 @@ namespace RecipeBox.Controllers
     public ActionResult AddTag(Recipe recipe, int tagId)
     {
       #nullable enable
-      RecipeTag? joinEntity = _db.RecipeTags.FirstOrDefault(join => (join.RecipeId == recipe.RecipeId && join.TagId == tagId));
+      RecipeTag? joinEntity = _db.RecipeTags.FirstOrDefault(join => (join.TagId == tagId && join.RecipeId == recipe.RecipeId));
       #nullable disable
       if (joinEntity == null && tagId != 0)
       {
-        _db.RecipeTags.Add(new RecipeTag() {RecipeId = recipe.RecipeId, TagId = tagId});
+        _db.RecipeTags.Add(new RecipeTag() {TagId = tagId, RecipeId = recipe.RecipeId});
         _db.SaveChanges();
       }
       return RedirectToAction("Details", new { id = recipe.RecipeId});
     }
 
-    [HttpPost]
-    public ActionResult DeleteJoin(int joinId)
+    public ActionResult DeleteTag(int id)
     {
-      RecipeTag joingEntry = _db.RecipeTags.FirstOrDefault(entry => entry.RecipeTagId == joinId);
-      _db.RecipeTags.Remove(joinEntity);
+      Recipe thisRecipe = _db.Recipes
+                                .Include(re => re.Author)
+                                .Include(je => je.JoinEntities)
+                                .ThenInclude(tag => tag.Tag)
+                                .FirstOrDefault(re => re.RecipeId == id);
+      return View(thisRecipe);
+    }
+
+    [HttpPost, ActionName("DeleteTag")]
+    public ActionResult DeleteTagConfirm(int joinId)
+    {
+      RecipeTag joinEntry = _db.RecipeTags.FirstOrDefault(entry => entry.RecipeTagId == joinId);
+      _db.RecipeTags.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
