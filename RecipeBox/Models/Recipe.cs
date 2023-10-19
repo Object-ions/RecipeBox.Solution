@@ -20,5 +20,6 @@ namespace RecipeBox.Models
     public int AuthorId { get; set; }
     public Author Author { get; set; }
     public List<RecipeTag> JoinEntities { get; }
+    public ApplicationUser User { get; set; } 
   }
 }
