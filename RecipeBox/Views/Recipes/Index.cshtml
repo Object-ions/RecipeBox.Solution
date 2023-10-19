@@ -6,7 +6,7 @@
 @model List<RecipeBox.Models.Recipe>;
 
 <div>
-<h2> Current Recipes:</h2>
+<h2> Current Recipes for @User.Identity.Name:</h2>
 
 @if (@Model.Count == 0)
 {

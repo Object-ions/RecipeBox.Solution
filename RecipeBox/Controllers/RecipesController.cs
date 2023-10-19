@@ -23,16 +23,24 @@ namespace RecipeBox.Controllers
       _db = db;
     }
 
-    public async Task<ActionResult> Index()
+    public async Task<ActionResult> Index() //new
     {
-      string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+      string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //new
+      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId); //new
       List<Recipe> userRecipes = _db.Recipes
-                                    .Where(entry => entry.User.Id == currentUser.Id)
+                                    .Where(entry => entry.User.Id == currentUser.Id) //new
                                     .Include(recipe => recipe.Author)
                                     .ToList();
       return View(userRecipes);
     }
+
+    // public ActionResult Index()
+    // {
+    //   List<Recipe> recipeModel = _db.Recipes
+    //                          .Include(recipe => recipe.Author)
+    //                          .ToList();
+    //   return View(recipeModel);
+    // }
 
     public ActionResult Create()
     {
@@ -41,7 +49,7 @@ namespace RecipeBox.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Recipe recipe)
+    public async Task<ActionResult> Create(Recipe recipe, int AuthorId) //new
     {
       if (!ModelState.IsValid)
       {
@@ -50,11 +58,30 @@ namespace RecipeBox.Controllers
       }
       else
       {
+        string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //new
+        ApplicationUser currentUser = await _userManager.FindByIdAsync(userId); //new
+        recipe.User = currentUser; //new
         _db.Recipes.Add(recipe);
         _db.SaveChanges();
         return RedirectToAction("Index");
       }
     }
+
+    // [HttpPost]
+    // public ActionResult Create(Recipe recipe)
+    // {
+    //   if (!ModelState.IsValid)
+    //   {
+    //     ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
+    //     return View(recipe);
+    //   }
+    //   else
+    //   {
+    //     _db.Recipes.Add(recipe);
+    //     _db.SaveChanges();
+    //     return RedirectToAction("Index");
+    //   }
+    // }
 
     public ActionResult Edit(int id)
     {
