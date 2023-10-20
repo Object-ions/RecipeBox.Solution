@@ -4,6 +4,10 @@ namespace RecipeBox.ViewModels
 {
   public class RegisterViewModel
   {
+    [Required] //remove Author Name since Name exists in Author Model. Then in the create Author, somehow tie to User.
+    [Display(Name = "Author Name")] //see above
+    public string AuthorName { get; set; } //see above
+
     [Required]
     [EmailAddress]
     [Display(Name = "Email Address")]

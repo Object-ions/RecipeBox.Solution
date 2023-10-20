@@ -40,8 +40,11 @@
     </ul>
 
   }
+  @if (User.Identity.IsAuthenticated)
+  {
   <div>
     @Html.ActionLink("Edit author profile", "Edit", new { id = @Model.AuthorId })
     @Html.ActionLink("Delete author profile", "Delete", new { id = @Model.AuthorId })
   </div>
+  }
 </div>

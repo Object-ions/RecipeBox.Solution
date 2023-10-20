@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using RecipeBox.Models;
 using System.Threading.Tasks;
 using RecipeBox.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace RecipeBox.Controllers
 {
@@ -29,31 +31,69 @@ namespace RecipeBox.Controllers
       return View();
     }
 
-    [HttpPost]
-    public async Task<ActionResult> Register (RegisterViewModel model)
+//--------- New and questionable ---------//
+[HttpPost]
+[AllowAnonymous]
+public async Task<IActionResult> Register(RegisterViewModel model)
+{
+    if (ModelState.IsValid)
     {
-      if (!ModelState.IsValid)
-      {
-        return View(model);
-      }
-      else
-      {
-        ApplicationUser user = new ApplicationUser { UserName = model.Email };
-        IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+        var result = await _userManager.CreateAsync(user, model.Password);
+
         if (result.Succeeded)
         {
-          return RedirectToAction("Index");
+            // Create an Author object
+            var author = new Author
+            {
+                Name = model.AuthorName,
+                User = user, // associate the ApplicationUser with the Author
+                UserId = user.Id
+            };
+            
+            _context.Authors.Add(author);
+            await _context.SaveChangesAsync();
+
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return RedirectToAction("Index", "Home");
         }
-        else
-        {
-          foreach (IdentityError error in result.Errors)
-          {
-            ModelState.AddModelError("", error.Description);
-          }
-          return View(model);
-        }
-      }
+        
+        AddErrors(result);
     }
+
+    // If we got this far, something failed, redisplay form
+    return View(model);
+}
+
+
+
+
+//--------- OLD and working ---------//
+    // [HttpPost]
+    // public async Task<ActionResult> Register (RegisterViewModel model)
+    // {
+    //   if (!ModelState.IsValid)
+    //   {
+    //     return View(model);
+    //   }
+    //   else
+    //   {
+    //     ApplicationUser user = new ApplicationUser { UserName = model.Email };
+    //     IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+    //     if (result.Succeeded)
+    //     {
+    //       return RedirectToAction("Index");
+    //     }
+    //     else
+    //     {
+    //       foreach (IdentityError error in result.Errors)
+    //       {
+    //         ModelState.AddModelError("", error.Description);
+    //       }
+    //       return View(model);
+    //     }
+    //   }
+    // }
 
     public ActionResult Login()
     {

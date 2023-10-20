@@ -5,24 +5,32 @@
 @using RecipeBox.Models
 @model RecipeBox.Models.Tag
 
-<h2>Tag Details</h2>
-<hr />
-<h3>Tag: @Html.DisplayFor(model => model.Name)</h3>
+<div>
+  <h2>Tag Details</h2>
+  <hr />
+  <h3>Tag: @Html.DisplayFor(model => model.Name)</h3>
 
-@if(@Model.JoinEntities.Count == 0)
-{
-  <p>This Tag has not been assigned with any recipe yet.</p>
-}
-else
-{
-  <h4>@Html.DisplayNameFor(model => model.Name) has the following recipes:</h4>
-  <ul>
-  @foreach(RecipeTag join in Model.JoinEntities)
+  @if(@Model.JoinEntities.Count == 0)
   {
-    <li>@join.Recipe.Name</li>
+    <p>This Tag has not been assigned with any recipe yet.</p>
   }
-  </ul>
-}
-<p>@Html.ActionLink("Add a recipe for this tag", "AddRecipe", new { id = Model.TagId }) </p>
-<p>@Html.ActionLink("Edit tag's profile", "Edit", new { id = Model.TagId })</p>
-<p>@Html.ActionLink("Delete tag", "Delete", new { id = Model.TagId})
+  else
+  {
+    <h4>@Html.DisplayNameFor(model => model.Name) has the following recipes:</h4>
+    <ul>
+    @foreach(RecipeTag join in Model.JoinEntities)
+    {
+      <li>@join.Recipe.Name</li>
+    }
+    </ul>
+  }
+</div>
+
+@if (User.Identity.IsAuthenticated)
+  {
+    <div class="btm-bar">
+      @Html.ActionLink("Add a recipe for this tag", "AddRecipe", new { id = Model.TagId }) 
+      @Html.ActionLink("Edit tag's profile", "Edit", new { id = Model.TagId })
+      @Html.ActionLink("Delete tag", "Delete", new { id = Model.TagId})
+    </div>
+  }

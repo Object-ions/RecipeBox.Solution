@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace RecipeBox.Controllers
 {
-  [Authorize]
+  // [Authorize]
   public class RecipesController : Controller
   {
     private readonly RecipeBoxContext _db;
@@ -23,31 +23,33 @@ namespace RecipeBox.Controllers
       _db = db;
     }
 
-    public async Task<ActionResult> Index() //new
-    {
-      string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //new
-      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId); //new
-      List<Recipe> userRecipes = _db.Recipes
-                                    .Where(entry => entry.User.Id == currentUser.Id) //new
-                                    .Include(recipe => recipe.Author)
-                                    .ToList();
-      return View(userRecipes);
-    }
-
-    // public ActionResult Index()
+    // public async Task<ActionResult> Index() //new
     // {
-    //   List<Recipe> recipeModel = _db.Recipes
-    //                          .Include(recipe => recipe.Author)
-    //                          .ToList();
-    //   return View(recipeModel);
+    //   string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //new
+    //   ApplicationUser currentUser = await _userManager.FindByIdAsync(userId); //new
+    //   List<Recipe> userRecipes = _db.Recipes
+    //                                 .Where(entry => entry.User.Id == currentUser.Id) //new
+    //                                 .Include(recipe => recipe.Author)
+    //                                 .ToList();
+    //   return View(userRecipes);
     // }
 
+    public ActionResult Index()
+    {
+      List<Recipe> recipeModel = _db.Recipes
+                             .Include(recipe => recipe.Author)
+                             .ToList();
+      return View(recipeModel);
+    }
+
+    [Authorize]
     public ActionResult Create()
     {
       ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
       return View();
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult> Create(Recipe recipe, int AuthorId) //new
     {
@@ -61,6 +63,7 @@ namespace RecipeBox.Controllers
         string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //new
         ApplicationUser currentUser = await _userManager.FindByIdAsync(userId); //new
         recipe.User = currentUser; //new
+        
         _db.Recipes.Add(recipe);
         _db.SaveChanges();
         return RedirectToAction("Index");
@@ -83,16 +86,76 @@ namespace RecipeBox.Controllers
     //   }
     // }
 
-    public ActionResult Edit(int id)
+    ////////////////////////
+    //OLD
+    ////////////////////
+    // [Authorize]
+    // public ActionResult Edit(int id)
+    // {
+    //   string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //new
+    //   ApplicationUser currentUser = await _userManager.FindByIdAsync(userId); //new
+    //   .Where(entry => entry.User.Id == currentUser.Id) //new
+
+    //   Recipe thisRecipe = _db.Recipes.FirstOrDefault(re => re.RecipeId == id);
+    //   ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
+    //   return View(thisRecipe);
+    // }
+
+    [Authorize]
+    public async Task<ActionResult> Edit(int id)
     {
-      Recipe thisRecipe = _db.Recipes.FirstOrDefault(re => re.RecipeId == id);
+      string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //new
+      if (userId == null)
+      {
+        return Unauthorized(); // Ensure the userId is found. Otherwise, return an unauthorized result.
+      }
+      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+      Recipe thisRecipe = _db.Recipes
+                            .Where(entry => entry.User.Id == currentUser.Id)
+                            .FirstOrDefault(re => re.RecipeId == id);
+      if (thisRecipe == null)
+      {
+        return NotFound(); // Return not found if no recipe matches the provided id for the current user.
+      }
       ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
       return View(thisRecipe);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////
+    // NEW
+    ////////////
+
+    // [Authorize]
+    // public async Task<ActionResult> Edit(int id)
+    // {
+    //   string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    //   if (userId == null)
+    //   {
+    //       return Unauthorized(); // Ensure the userId is found. Otherwise, return an unauthorized result.
+    //   }
+    //   ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+    //   // Ensure the recipe belongs to the current user
+    //   Recipe thisRecipe = _db.Recipes
+    //                         .Where(entry => entry.User.Id == currentUser.Id)
+    //                         .FirstOrDefault(re => re.RecipeId == id);
+    //   if (thisRecipe == null)
+    //   {
+    //       return NotFound(); // Return not found if no recipe matches the provided id for the current user.
+    //   }
+    //   ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
+    //   return View(thisRecipe);
+    // }
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+
+    [Authorize] //new
     [HttpPost]
-    public ActionResult Edit(Recipe recipe)
+    public async Task<ActionResult> Edit(Recipe recipe) //new
     {
+      string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //new
+      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId); //new
+      recipe.User = currentUser; //new
+
       _db.Recipes.Update(recipe);
       _db.SaveChanges();
       return RedirectToAction("Index");
@@ -115,8 +178,12 @@ namespace RecipeBox.Controllers
     }
 
     [HttpPost, ActionName("Delete")]
-    public ActionResult DeleteConfirm(int id)
+    public async Task<ActionResult> DeleteConfirm(Recipe recipe, int id)
     {
+      string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //new
+      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId); //new
+      recipe.User = currentUser; //new
+      
       Recipe thisRecipe = _db.Recipes.FirstOrDefault(re => re.RecipeId == id);
       _db.Recipes.Remove(thisRecipe);
       _db.SaveChanges();

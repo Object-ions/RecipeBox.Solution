@@ -24,12 +24,11 @@ ul {
 }
 
 .header-section {
-  background-color: blueviolet;
+  display: flex;
+  flex-direction: row;
 }
 
-.footer-section {
-  position: absolute;
-  bottom: 50px;
+.nav-section {
   width: 100%;
   color: #f9fafb;
   width: 100%;
@@ -40,11 +39,15 @@ ul {
 }
 
 .index-div {
-  background-color: aquamarine;
   display: flex;
   flex-direction: row;
 }
 
 .pr-33{
   width: 33%;
+}
+
+ul {
+  display: inline-block;
+  margin-right: 5px;
 }

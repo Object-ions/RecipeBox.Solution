@@ -25,6 +25,10 @@
   @Html.LabelFor(user=> user.ConfirmPassword)
   @Html.EditorFor(user=> user.ConfirmPassword)
 
+  @Html.LabelFor(user => user.AuthorName)
+  @Html.TextBoxFor(user => user.AuthorName)
+  @Html.ValidationMessageFor(user => user.AuthorName)
+
   <input type="submit" value="Register" />
 }
 

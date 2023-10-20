@@ -5,6 +5,7 @@
 @model RecipeBox.Models.Recipe;
 @using RecipeBox.Models;
 @using System.Collections.Generic;
+@using System.Security.Claims;
 
 <div>
 
@@ -30,7 +31,7 @@
   <div>
     @if(@Model.JoinEntities.Count == 0)
     {
-      <p>This recipe has no tags.</p>
+      <p>Tags: this recipe has no tags.</p>
     }
     else
     {
@@ -47,8 +48,14 @@
       
   </div>
 
-  <div class="btm-bar">
-    @Html.ActionLink("Edit recipe", "Edit", new { id = Model.RecipeId })
-    @Html.ActionLink("Delete this recipe", "Delete", new { id = Model.RecipeId })
-  </div>
+
+  @if (User.Identity.IsAuthenticated && Model.Author.UserId == User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+  //NOTE: need to connect author to log-in user
+  {
+    <div class="btm-bar">
+      @Html.ActionLink("Edit recipe", "Edit", new { id = Model.RecipeId })
+      @Html.ActionLink("Delete this recipe", "Delete", new { id = Model.RecipeId })
+    </div>
+  }
+
 <div>

@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace RecipeBox.Controllers
 {
@@ -21,13 +25,15 @@ namespace RecipeBox.Controllers
       return View(_db.Tags.ToList());
     }
 
+    [Authorize]
     public ActionResult Create()
     {
       return View();
     }
 
+    [Authorize]
     [HttpPost]
-    public ActionResult Create(Tag tag)
+    public async Task<ActionResult> Create(Tag tag)
     {
       if (!ModelState.IsValid)
       {
@@ -49,12 +55,14 @@ namespace RecipeBox.Controllers
       return View(thisTag);
     }
     
+    [Authorize]
     public ActionResult Edit(int id)
     {
       Tag thisTag = _db.Tags.FirstOrDefault(p => p.TagId == id);
       return View(thisTag);
     }
 
+    [Authorize]
     [HttpPost]
     public ActionResult Edit(Tag tag)
     {
@@ -63,13 +71,14 @@ namespace RecipeBox.Controllers
       return RedirectToAction ("Index");
     }
     
-
+    [Authorize]
     public ActionResult Delete(int id)
     {
       Tag thisTag = _db.Tags.FirstOrDefault(p => p.TagId == id);
       return View(thisTag);
     }
 
+    [Authorize]
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
